@@ -9,7 +9,6 @@ services:
     volumes:
       - ./:/app
     ports:
-      - "3000:3000"
-      - "3001:3001"
-    command: ["nodemon", "src/index.js"]
+      - "8080:8080"
+    command: ["npm", "start"]
     user: "1000"
