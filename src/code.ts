@@ -1,30 +1,12 @@
-import { Observable, Observer, Subscription } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { fromEvent, Observable, Observer, Subscription } from 'rxjs';
 
-const observable = Observable.create((observer: Observer<any>) => {
-  try {
-    observer.next('Hey guys!');
-    observer.next('How are you?');
-    setInterval(() => {
-      observer.next('I am good.');
-    }, 2000);
-  } catch (err) {
-    observer.error(err);
-  }
-}).pipe(share());
-
-
-const subscription: Subscription = observable.subscribe(
-  (x: any) => addItem(x),
-  (error: any) => addItem(error),
-  () => addItem('Completed.')
-);
+const observable: Observable<any> = fromEvent(document, 'mousemove');
 
 setTimeout(() => {
-  const anotherSubscription: Subscription = observable.subscribe(
-    (x: any) => addItem('Subscription 2: ' + x)
+  const subscription: Subscription = observable.subscribe(
+    (x: any) => addItem(x)
   );
-}, 5000);
+}, 2000);
 
 function addItem(val: any): void {
   const node = document.createElement('li');
