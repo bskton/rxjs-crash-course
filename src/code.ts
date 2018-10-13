@@ -1,19 +1,22 @@
-import { Observable, Observer } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { Subject, Observable, Observer } from 'rxjs';
+import { skipUntil } from 'rxjs/operators';
 
-const firstObservable = Observable.create(
-  (observer: Observer<{ msg: string }>) => {
-    observer.next({ msg: 'Hey guys!' });
-    observer.next({ msg: 'How are you?' });
-  }
-)
-  .pipe(
-    pluck('msg'),
-    map((val: string) => val.toUpperCase())
-  )
-  .subscribe((x: string) => addItem(x));
+const firstObservable = Observable.create((observer: Observer<number>) => {
+  let i = 1;
+  setInterval(() => {
+    observer.next(i++);
+  }, 1000);
+});
 
-function addItem(val: any): void {
+const secondObservable = new Subject();
+setTimeout(() => {
+  secondObservable.next('hey');
+}, 3000);
+
+const thirdObservable = firstObservable.pipe(skipUntil(secondObservable));
+thirdObservable.subscribe((x: number) => addItem(x.toString()));
+
+function addItem(val: string): void {
   const node = document.createElement('li');
   const textNode = document.createTextNode(val);
   node.appendChild(textNode);
