@@ -1,16 +1,11 @@
-# Docker Node.js Starter Kit
+# RxJS Crash Course
 
-Docker compose config for developing Node.js application.
+Source code for RxJS Crash Course.
 
 ## Usage
 ```
-mkdir my-project
-cd my-project
-git clone https://github.com/bskton/docker-nodejs-starter-kit.git .
-git remote rm origin
+git clone https://github.com/bskton/rxjs-crash-course.git
+cd rxjs-crash-course
 cp .env.dist .env
-```
-Add your values into .env
-```
 docker-compose up
 ```
