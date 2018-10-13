@@ -1,6 +1,6 @@
-import { ReplaySubject, Subscription } from 'rxjs';
+import { AsyncSubject, Subscription } from 'rxjs';
 
-const subject = new ReplaySubject(30, 200);
+const subject = new AsyncSubject();
 
 const firstSubscription = subject.subscribe(
   data => addItem('Subscription 1: ' + data),
@@ -11,11 +11,11 @@ const firstSubscription = subject.subscribe(
 let i = 1;
 const interval = setInterval(() => subject.next(i++), 100);
 
-let secondSubscription: Subscription;
 setTimeout(() => {
-  secondSubscription = subject.subscribe(
+  const secondSubscription = subject.subscribe(
     data => addItem('Subscription 2: ' + data)
   )
+  subject.complete();
 }, 500)
 
 function addItem(val: any): void {
